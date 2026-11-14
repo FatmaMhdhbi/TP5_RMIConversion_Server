@@ -13,25 +13,8 @@ Concevoir une application répartie client/serveur avec **Java RMI (Remote Metho
 Le cycle de vie du service distant couvre quatre phases :
 **Définition de l'interface → Implémentation → Enregistrement → Invocation.**
 
-## 2. Architecture du projet
 
-```
-votreNomPrenom_LSI3_DevAppReparties/
-├── TP5_RMIConversion_Server/
-│   └── src/main/java/
-│       ├── rmiService/
-│       │   ├── IConversion.java       (interface distante)
-│       │   └── ConversionImpl.java    (implémentation du service)
-│       └── rmiServer/
-│           └── ConversionServer.java  (lancement du serveur + registre)
-├── tP5_RMIConversion_Client/
-│   ├── lib/ConversionClient.jar       (contient uniquement IConversion)
-│   └── src/main/java/rmiClient/
-│       └── ConversionClient.java      (application cliente)
-└── README.md
-```
-
-## 3. Travail réalisé
+## 2. Travail réalisé
 
 ### Étape 1 – Préparation de l'espace de travail
 Création du répertoire `votreNomPrenom_LSI3_DevAppReparties` qui contient les deux projets (serveur et client).
@@ -70,35 +53,42 @@ Le serveur est lancé en premier, puis le client.
 
 ---
 
-## 4. Captures d'écran et explications
+## 3. Captures d'écran et explications
 
-### 4.1 Structure du projet serveur
-![Structure du serveur](images/03_structure_serveur.png)
+### 3.1 Structure du projet serveur
+<img width="346" height="673" alt="Capture d&#39;écran 2026-11-13 214201" src="https://github.com/user-attachments/assets/5ef6972b-6892-4a46-a044-a6a8b5211a49" />
+
 
 Le projet serveur contient le package `rmiService` (interface `IConversion` et classe `ConversionImpl`) et le package `rmiServer` (classe `ConversionServer`). Le dossier `out/artifacts/ConversionClient` contient le fichier `ConversionClient.jar` généré pour le client.
 
-### 4.2 Création du JAR (Artifacts)
-![Configuration de l'artefact JAR](images/06_artifact_jar.png)
+### 3.2 Création du JAR (Artifacts)
+<img width="1030" height="472" alt="Capture d&#39;écran 2026-11-13 214615" src="https://github.com/user-attachments/assets/22bbfd12-f786-4760-9788-5af3a262da29" />
+
 
 Dans *Project Structure → Artifacts*, un artefact de type **JAR** nommé `ConversionClient` a été créé. Dans son *Output Layout*, seule la classe `rmiService/IConversion.class` est incluse, conformément à la consigne (sans `ConversionImpl`).
 
-### 4.3 Structure du projet client
-![Structure du client](images/04_structure_client.png)
+### 3.3 Structure du projet client
+<img width="360" height="660" alt="Capture d&#39;écran 2026-11-13 214239" src="https://github.com/user-attachments/assets/b5bf6880-c381-4dc1-b196-f8d393f32029" />
+
 
 Le projet client contient le dossier `lib` avec `ConversionClient.jar` (qui expose `rmiService.IConversion`) et le package `rmiClient` avec la classe `ConversionClient`. Le JAR apparaît aussi dans *External Libraries*.
 
-### 4.4 Ajout du JAR aux dépendances du client
-![Dépendance du client](images/05_dependance_client.png)
+### 3.4 Ajout du JAR aux dépendances du client
+<img width="1004" height="437" alt="Capture d&#39;écran 2026-11-13 214558" src="https://github.com/user-attachments/assets/706d31fc-ac67-48aa-a02a-85fb1708b28e" />
+
 
 Dans *Project Structure → Modules → Dependencies*, `ConversionClient.jar` est ajouté avec la portée **Compile**. Le client peut ainsi utiliser l'interface `IConversion` sans disposer du code du serveur.
 
 ### 4.5 Démarrage du serveur RMI
-![Serveur démarré](images/01_serveur_demarre.png)
+<img width="742" height="171" alt="Capture d&#39;écran 2026-11-13 205329" src="https://github.com/user-attachments/assets/742bd18b-e8ed-4b11-b786-3ae223288593" />
+
+
 
 La console affiche le message **« Serveur RMI de conversion démarré... »** : le registre RMI est actif et l'objet `ConversionImpl` est publié (la ligne `ConversionImpl[UnicastServerRef [liveRef: [endpoint:[192.168.1.13:57076]...` montre l'objet distant exporté, avec l'adresse IP et le port sur lesquels il écoute).
 
 ### 4.6 Exécution du client
-![Résultat du client](images/02_resultat_client.png)
+<img width="434" height="223" alt="Capture d&#39;écran 2026-11-13 213926" src="https://github.com/user-attachments/assets/03d86f6d-555b-4ec4-accf-457763f38f8d" />
+
 
 Le client affiche **« Résultat de la conversion : 600.0 »** pour l'appel `convertirMontant(500)` et se termine avec le code `0` (exécution sans erreur). Cela confirme que l'appel de méthode a bien été exécuté sur l'objet distant, côté serveur (500 × 1,2 = 600).
 
